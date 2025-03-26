@@ -1,0 +1,162 @@
+/* Header favorito */
+.favorite-header {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 20px;
+  color: #333;
+}
+
+/* Contenedor principal de la página */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 70vh; /* Asegura que haya suficiente altura para las secciones */
+}
+
+/* Sección izquierda (tabla) */
+.left-section {
+  flex: 2;
+  border-radius: 10px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+.table-container {
+  border-radius: 10px;
+  overflow: auto; /* Agregar scroll si el contenido excede */
+  max-width: 100%;
+  max-height: 400px; /* Ajusta la altura para que el scroll se active */
+  overflow-x: auto; /* Scroll horizontal */
+}
+
+.character-table {
+  width: 100%;
+  min-width: 600px; /* Añadir un tamaño mínimo para el scroll horizontal */
+  border-collapse: collapse;
+}
+
+.character-table th, .character-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  color: hsl(0, 0.00%, 100.00%);
+}
+
+/* Efecto al pasar el mouse sobre las celdas */
+.character-table td:hover {
+  background-color: hsl(34, 100%, 50%);
+  color: hsl(0, 0.00%, 100.00%);
+}
+
+/* Efecto al pasar el mouse sobre las filas */
+.character-table tr:hover {
+  background-color: hsl(34, 100%, 50%);
+  cursor: pointer; /* Cambia el cursor a mano */
+}
+
+/* Color de texto en la tabla */
+.character-table tr {
+  color: black;
+}
+
+.character-table td {
+  color: black;
+}
+
+/* Sección derecha (card) */
+.right-section {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Asegura que los elementos dentro del card se alineen hacia arriba */
+  height: 100%; /* Mantiene la altura máxima disponible */
+  border-radius: 10px;
+}
+
+/* Card con scroll completo */
+.character-card {
+  background-color:rgb(23, 30, 37); /* Fondo blanco para el card */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.31);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Alinea los elementos desde arriba */
+  min-height: 500px; /* Altura mínima para el card */
+  max-width: 380px; /* Limita el ancho del card */
+  height: 100%; /* Ajusta el tamaño del card al 100% de la altura disponible */
+  overflow-y: auto; /* Activa el scroll en todo el card */
+  max-height: 427px; /* Altura máxima para evitar que el card crezca demasiado */
+}
+
+/* Contenedor de la imagen */
+.character-image-container {
+  width: 250px;
+  height: 350px;
+  margin: 0 auto 15px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:white;
+}
+
+.character-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Detalles del personaje con scroll si es necesario */
+.character-details {
+  text-align: center;
+  max-height: 200px; /* Limita la altura para que se pueda hacer scroll */
+  width: 100%;
+  color:hsl(34, 100%, 50%);
+}
+
+.character-details p {
+  font-size: 14px;
+  margin: 5px 0;
+  color:white;
+}
+
+/* Botones debajo del card */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  width: 70%;
+  margin-left: 5%;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: hsl(34, 100%, 50%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 100%;
+  margin-top:15px
+}
+
+.button-container button:hover {
+  background-color: #343a40;
+}
+
+

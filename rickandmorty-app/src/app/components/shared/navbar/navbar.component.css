@@ -1,0 +1,56 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 2px solid #ccc;
+  box-shadow: 0 4px 6px #343a40;
+}
+
+.navbar-header, .navbar-fav {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-header {
+  margin-right: 50px; /* Mueve el enlace de Header hacia el centro */
+}
+
+.navbar-fav {
+  margin-left: 50px; /* Mueve el enlace de Favorito hacia el centro */
+}
+
+.navbar-header .header-link {
+  color: #343a40; /* Color negro para el enlace de Header */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.navbar-fav .favorite-link {
+  color: hsl(34, 100%, 50%); /* Color amarillo/naranja para el enlace de Favorito */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+.navbar-header .header-link:hover {
+  color: hsl(34, 100%, 50%); /* Cambio de color al pasar el mouse sobre el Header */
+  text-decoration: none;
+}
+
+.navbar-fav .favorite-link:hover {
+  color:hsl(34, 100%, 50%); /* Cambio de color al pasar el mouse sobre Favorito */
+  text-decoration: none;
+}

@@ -1,0 +1,160 @@
+<div *ngIf="personajeFavoritoSeleccionadoObjectSignal() || personajeSeleccionadoObjectSignalSelect()" class="favorite-header text-center p-4 bg-dark text-white">
+  <rickandmorty-component 
+    Titulo="Info Personaje Favorito Seleccionado Comunicación Component"
+    [personajeFavoritoSeleccionadoObjectSignal]="personajeFavoritoSeleccionadoObjectSignal()">
+  </rickandmorty-component>
+</div>
+
+<div class="header-container">
+  <!-- Parte Izquierda: Tabla de personajes -->
+  <div class="left-section">
+    <div class="input-group input-group-sm mb-3">
+      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por ID</span>
+      <input type="number" 
+      class="form-control" 
+      aria-label="Buscar por ID" 
+      [value]="idBuscarPersonaje()" 
+      (input)="actualizarId($event)">
+    </div>
+    <div class="input-group input-group-sm mb-3">
+      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por Nombre</span>
+      <input type="text" 
+         class="form-control" 
+         aria-label="Buscar por Nombre" 
+         [value]="nombreBuscarPersonaje()" 
+         (input)="actualizarNombre($event)">
+    </div>
+    <div class="table-container">
+      <table class="character-table">
+        <thead>
+          <tr class="bg-dark">
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Species</th>
+            <th scope="col">Type</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            class="descripcion" 
+            *ngFor="let personaje of personajesArraySignal()" 
+            (click)="seleccionarPersonaje(personaje)"
+            [class.bg-success]="personaje.id === personajeSeleccionadoObjectSignalSelect()?.id"
+          >
+          <td>{{ personaje.id }}</td>
+            <td>{{ personaje.name }}</td>
+            <td>{{ personaje.status }}</td>
+            <td>{{ personaje.species }}</td>
+            <td 
+              [class.text-danger]="!personaje.type"
+              [class.text-primary]="personaje.type"
+            >
+              {{ personaje.type ? personaje.type : "No exist" }}
+            </td>            
+            <td>{{ personaje.gender }}</td>
+            <td>{{ personaje.created }}</td>
+          </tr>
+        </tbody>
+        
+      </table>
+    </div>
+    <!-- Botón debajo de la tabla -->
+    <div class="button-container">
+      <button class="species-button" (click)="calcularEspecies()">TAB TOTAL SPECIES</button>
+    </div>
+    <table class="table"  *ngIf="speciesArraySignal() && speciesArraySignal()?.length !=0">
+      <thead>
+        <tr>
+          <th scope="col" *ngIf="speciesArraySignal()?.length !=0">{{speciesArraySignal()?.length !=0 ==true? 'Especie':'Especie' }}</th>
+          <th scope="col" *ngIf="speciesArraySignal()?.length !=0">{{speciesArraySignal()?.length !=0 ==true? 'Cantidad Total':'Cantidad Total' }} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+        *ngFor="let especie of speciesArraySignal()" 
+         >
+          <td>{{especie.name}}</td>
+          <td>{{especie.cantidad}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Parte Derecha: Card del personaje seleccionado -->
+  <div class="right-section">
+    <div class="character-card">
+      <div class="character-image-container" >
+        <img *ngIf="personajeSeleccionadoObjectSignal() || personajeSeleccionadoObjectSignalSelect()" [src]="personajeSeleccionadoObjectSignal()?.image || personajeSeleccionadoObjectSignalSelect()?.image" 
+             [alt]="personajeSeleccionadoObjectSignal()?.name || personajeSeleccionadoObjectSignalSelect()?.name" 
+          />
+      </div>
+      <div class="form-check" >
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label text-white" for="flexCheckChecked">
+          {{personajeSeleccionadoObjectSignalSelect()?.id === personajeSeleccionadoObjectSignal()?.id? enunciadoFavorito():'Seleccionar Favorito' }}{{!personajeSeleccionadoObjectSignalSelect()?.id && !personajeSeleccionadoObjectSignal()?.id? 'Seleccionar Personaje':'' }}
+        </label>
+      </div>               
+      <div class="character-details">
+        <h2>
+            {{ personajeNameToUpperCaseCard() || personajeSeleccionadoObjectSignalSelect()?.name }}
+        </h2>
+    
+        <p>
+            <strong>Origen:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.origin?.name || personajeSeleccionadoObjectSignalSelect()?.origin?.name }}  
+        </p>
+        <p>
+            <strong>Residente en origen:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.Origen?.residente || 'No tiene' }}  
+        </p>
+    
+        <p>
+            <strong>Localización:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.Localizacion?.name || 'No tiene' }}  
+        </p>
+        <p>
+            <strong>Residente en localización:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.Localizacion?.residente || 'No tiene' }}  
+        </p>
+    
+        <p>
+            <strong>Nombre Episodio:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.Episodio?.name || 'No tiene' }}  
+        </p>
+        <p>
+            <strong>Episodio:</strong> 
+            {{ personajeSeleccionadoObjectSignal()?.Episodio?.episodio || 'No tiene' }}  
+        </p>
+    </div>
+    
+    </div>
+    
+    <!-- Botón debajo del card, fuera del card -->
+    <div class="button-container">
+      <button class="type-button" (click)="calcularTypes()">TAB TOTAL TYPES</button>
+    </div>
+    <table class="table" *ngIf="typesArraySignal() && typesArraySignal()?.length !=0">
+      <thead>
+        <tr>
+          <th scope="col">Tipo</th>
+          <th scope="col">Cantidad Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+         *ngFor="let type of typesArraySignal()" 
+        >
+          <td>{{type?.name}}</td>
+          <td>{{type?.cantidad}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  
+  
+  

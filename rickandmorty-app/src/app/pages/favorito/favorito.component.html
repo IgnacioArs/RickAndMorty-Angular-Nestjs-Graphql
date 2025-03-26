@@ -1,0 +1,38 @@
+<div class="favorite-section container">
+  <!-- Si hay personaje favorito seleccionado, muestra los detalles -->
+  <div *ngIf="personajeSeleccionadoObjectSignal(); else noFavorite" class="favorite-card row mb-4">
+    <div class="col-md-9">
+      <div class="favorite-image-container">
+        <img [src]="personajeSeleccionadoObjectSignal()?.image" 
+             [alt]="personajeSeleccionadoObjectSignal()?.name" class="img-fluid" />
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="favorite-details">
+        <h2 class="favorite-details-h2">{{ personajeSeleccionadoObjectSignal()?.name }}⭐</h2>
+        <p><strong>Species:</strong> {{ personajeSeleccionadoObjectSignal()?.species }}</p>
+        <p><strong>Gender:</strong> {{ personajeSeleccionadoObjectSignal()?.gender }}</p>
+        <p><strong>Status:</strong> {{ personajeSeleccionadoObjectSignal()?.status }}</p>
+      </div>
+      <div class="favorite-button-container mt-3">
+        <button class="btn btn-primary" (click)="irVolverSeleccionar()">Seleccionar Favorito</button>
+      </div>
+      <div class="favorite-button-container mt-3">
+        <button class="btn btn-primary" (click)="irALista()">Ir A Listado Favorito</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Si no hay favorito, muestra este bloque -->
+  <ng-template #noFavorite>
+    <div class="alert alert-warning text-center mb-4">
+      No has seleccionado ningún personaje favorito.
+    </div>
+  </ng-template>
+
+</div>
+
+
+
+
+  

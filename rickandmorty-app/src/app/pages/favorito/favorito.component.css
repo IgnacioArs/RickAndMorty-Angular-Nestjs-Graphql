@@ -1,0 +1,85 @@
+/* Sección de Favorito */
+.favorite-section {
+  display: flex;
+  justify-content: center; /* Centra el card */
+  align-items: center; /* Centra el card verticalmente */
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  background-color: #f9f9f9; /* Fondo claro */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Card del personaje favorito */
+.favorite-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow:0px 4px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Alinea los elementos desde arriba */
+  min-height: 500px; /* Altura mínima para el card */
+  max-width: 400px; /* Limita el ancho del card */
+  background-color:rgb(23, 30, 37);/* Fondo blanco para el card */
+  border-radius: 10px; /* Bordes redondeados */
+  width: 150%;
+  overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+/* Contenedor de la imagen */
+.favorite-image-container {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto 20px auto;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.favorite-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background:white;
+}
+
+/* Detalles del personaje favorito */
+.favorite-details {
+  text-align: center;
+  width: 100%;
+}
+
+/* Párrafos dentro de los detalles del personaje */
+.favorite-details p {
+  font-size: 16px;
+  margin: 10px 0;
+  color:white
+}
+
+.favorite-details-h2{
+  color:hsl(34, 100%, 50%);
+}
+/* Botón para regresar o más acciones */
+.favorite-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.favorite-button-container button {
+  padding: 12px 20px;
+  cursor: pointer;
+  background-color: hsl(34, 100%, 50%);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 100%; /* Ajuste para que el botón ocupe todo el ancho disponible */
+  max-width: 200px; /* Establece un ancho máximo para que el botón no se estire demasiado */
+}
+
+.favorite-button-container button:hover {
+  background-color:#343a40;
+}

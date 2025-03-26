@@ -1,0 +1,25 @@
+<div class="container text-center">
+   <h2>
+      {{Titulo}} 
+   </h2>
+   
+    <div class="row align-items-start">
+      <div class="col">
+        {{ personajeFavoritoSeleccionadoObjectSignal?.name || personajeSeleccionadoObjectSignal()?.name? personajeSeleccionadoObjectSignal()?.name:'No tiene'}}
+      </div>
+      <div class="col">
+         {{ personajeFavoritoSeleccionadoObjectSignal?.status || personajeSeleccionadoObjectSignal()?.status? personajeSeleccionadoObjectSignal()?.status:'No tiene' }}
+      </div>
+      <div class="col">
+         {{ personajeFavoritoSeleccionadoObjectSignal?.species || personajeSeleccionadoObjectSignal()?.species? personajeSeleccionadoObjectSignal()?.species: 'No tiene' }}
+      </div>
+      <div class="col">
+        {{ personajeFavoritoSeleccionadoObjectSignal?.type || personajeSeleccionadoObjectSignal()?.type ? personajeSeleccionadoObjectSignal()?.type: 'No tiene' }}
+     </div>
+     <div class="col">
+      {{ personajeFavoritoSeleccionadoObjectSignal?.gender || personajeSeleccionadoObjectSignal()?.gender? personajeSeleccionadoObjectSignal()?.gender:'No tiene' }}
+   </div>
+    </div>
+    
+</div>
+  
