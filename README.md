@@ -34,11 +34,11 @@ Este proyecto es una aplicación Full Stack que utiliza NestJS en el backend y A
 ### 1. Clonar el repositorio
 
 ```sh
-git clone https://github.com/tu-usuario/tu-repositorio.git
+git clone https://github.com/IgnacioArs/RickAndMorty-Angular-Nestjs-Graphql.git
 cd tu-repositorio
 ```
 
-### 2. Configurar el Backend (NestJS)
+### 2. Configurar el Backend (NestJS) RUN
 
 ```sh
 cd backend
@@ -46,7 +46,7 @@ npm install
 npm run start:dev
 ```
 
-### 3. Configurar el Frontend (Angular)
+### 3. Configurar el Frontend (Angular) RUN
 
 ```sh
 cd frontend
