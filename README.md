@@ -42,7 +42,7 @@ cd tu-repositorio
 
 ```sh
 cd backend
-npm install
+npm install --force or --legacy-peer-deps
 npm run start:dev
 ```
 
