@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { StorageService } from '../../services/storage.service';
 import { PersonajeFavoritoInterface } from '../../interface/Personaje-Favorito-Interface';
+import { PersonajeObservableService } from '../../services/personaje-observable.service';
+import { PersonajeObservableInterface } from '../../interface/personajeObservable';
+
 
 @Component({
   selector: 'app-favorito',
@@ -17,6 +20,7 @@ export class FavoritoComponent {
   
   private personajeService = inject(PersonajeFavoritoService);
   private storageService = inject(StorageService); // Inyectar el servicio
+  private personajeObservableService = inject(PersonajeObservableService); // Inyectar el servicio PersobajeObservable
 
   personajeSeleccionadoObjectSignal = this.personajeService.personajeFavoritoSeleccionadoSignal;
 
@@ -24,6 +28,8 @@ export class FavoritoComponent {
   
    arrayPersonajeFavorito: PersonajeFavoritoInterface[] = []; // Especificamos el tipo del array
    arrayPersistentePersonaje = signal<PersonajeFavoritoInterface[]>([]);
+   personajeGuardadoObservable = {}  as PersonajeObservableInterface;
+
    constructor() {
     effect(() => {
       const personaje = this.personajeSeleccionadoObjectSignal();
@@ -36,6 +42,24 @@ export class FavoritoComponent {
       console.log("Personajes favoritos al cargar la página:", this.arrayPersonajeFavorito);
     });
   }
+
+  ngOnInit():any {
+    this.personajeObservableService.getPersonajeObservable().subscribe((data)=>{
+      console.log("datos de la pagina",data);
+      this.personajeGuardadoObservable = data;
+    })
+  }
+
+  hasValidData(): string {
+    return (
+      this.personajeGuardadoObservable.nombre &&
+      this.personajeGuardadoObservable.especie &&
+      this.personajeGuardadoObservable.genero &&
+      this.personajeGuardadoObservable.estado
+    );
+  }
+
+
 
   irVolverSeleccionar() {
     this.router.navigate(['/header']);

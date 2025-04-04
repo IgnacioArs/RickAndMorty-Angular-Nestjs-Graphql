@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="bg-light p-4 rounded mt-5 mb-5 border border-dark">
+        <div class="input-group-prepend bg-dark p-2 mt-4 mb-4 border border-black rounded">
+          <h3 class="text-center mt-3 text-white">Formulario Material Angular</h3>
+        </div>
+        <form [formGroup]="personajeForm" (ngSubmit)="handleCrearPersonaje()">
+          <mat-form-field class="w-100">
+            <mat-label>Nombre personaje</mat-label>
+            <input matInput formControlName="nombre">
+          </mat-form-field>
+          <div *ngIf="nombre.invalid && nombre.touched" class="alert alert-danger" role="alert">
+            Se requiere el campo nombre (mínimo 3 caracteres y máximo 30)!
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Estado Personaje</mat-label>
+            <mat-select formControlName="estado">
+              <mat-option value="Vivo">Vivo</mat-option>
+              <mat-option value="Muerto">Muerto</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="estado.invalid && estado.touched" class="alert alert-danger" role="alert">
+            Se requiere seleccionar un estado
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Especie Personaje</mat-label>
+            <mat-select formControlName="especie">
+              <mat-option value="Humana">Humana</mat-option>
+              <mat-option value="Alienigena">Alienigena</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="especie.invalid && especie.touched" class="alert alert-danger" role="alert">
+            Se requiere seleccionar una especie
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Tipo Personaje</mat-label>
+            <mat-select formControlName="tipo">
+              <mat-option value="Humano">Humano</mat-option>
+              <mat-option value="Alien">Alien</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="tipo.invalid && tipo.touched" class="alert alert-danger" role="alert">
+            Se requiere seleccionar un tipo
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Genero Personaje</mat-label>
+            <mat-select formControlName="genero">
+              <mat-option value="Femenino">Femenino</mat-option>
+              <mat-option value="Masculino">Masculino</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="genero.invalid && genero.touched" class="alert alert-danger" role="alert">
+            Se requiere seleccionar un genero
+          </div>
+          <mat-form-field class="w-100">
+            <mat-label>Fecha creación</mat-label>
+            <input matInput formControlName="fechaCreacion" [matDatepicker]="picker">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-hint>MM/DD/YYYY</mat-hint>
+          </mat-form-field>
+          <div *ngIf="fechaCreacion.hasError('required') && fechaCreacion.touched" class="alert alert-danger" role="alert">
+            Se requiere seleccionar un fecha creacion
+          </div>
+          <section class="mt-5">
+            <div class="d-flex justify-content-center">
+              <button   [ngClass]="{
+                'btn btn-secondary text-black': !botonEnable(), 
+                'bg-warning text-dark': botonEnable()
+              }" mat-raised-button type="submit" [disabled]="!botonEnable()">Guardar Personaje</button>
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

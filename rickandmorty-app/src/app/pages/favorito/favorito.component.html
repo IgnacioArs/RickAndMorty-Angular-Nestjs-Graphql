@@ -23,6 +23,21 @@
     </div>
   </div>
 
+
+
+  <div *ngIf="hasValidData(); else noFavorite" class="favorite-card row mb-4">
+    <div class="col-md-9">
+      <div class="favorite-details">
+        <h2 class="favorite-details-h2">Ejemplo Observable</h2>
+        <h2 class="favorite-details-h2">{{ personajeGuardadoObservable.nombre }}⭐</h2>
+        <p><strong>Species:</strong> {{ personajeGuardadoObservable.especie }}</p>
+        <p><strong>Gender:</strong> {{ personajeGuardadoObservable.genero }}</p>
+        <p><strong>Status:</strong> {{ personajeGuardadoObservable.estado }}</p>
+      </div>
+    </div>
+  </div>
+  
+
   <!-- Si no hay favorito, muestra este bloque -->
   <ng-template #noFavorite>
     <div class="alert alert-warning text-center mb-4">

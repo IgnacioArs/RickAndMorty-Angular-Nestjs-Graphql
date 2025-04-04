@@ -28,6 +28,7 @@ Este proyecto es una aplicación Full Stack que utiliza NestJS en el backend y A
 - **LocalStorage**: Persistencia de datos en el navegador.
 - **Angular Router**: Manejo de la navegación entre componentes.
 - **RxJS**: Programación reactiva para manejar eventos asincrónicos.
+- **FORMULARIOS REACTIVOS CHECKBOX**: MANEJO DE EVENTOS subscribe BehaviorSubject Subject
 
 ## Instalación y Configuración
 
