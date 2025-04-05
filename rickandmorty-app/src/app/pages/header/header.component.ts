@@ -3,17 +3,18 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject,signal } f
 import { PersonajeInterface } from '../../interface/Personaje-Interface';
 import { RickAndMortyComponent } from '../../components/rickandmorty/rickandmorty.component';
 import { PersonajeFavoritoInterface } from '../../interface/Personaje-Favorito-Interface';
-import { fromEvent } from 'rxjs';
+import { debounceTime, fromEvent, switchMap} from 'rxjs';
 import { RickAndMortyService } from '../../services/rickandmorty.service';
 import { PersonajeFavoritoService } from '../../services/personajeFavorito.service';
 import { OriginLocationService } from '../../services/origin-location-residentes.service';
-import { setData,updateData } from '../../store/app.actions';
+import { setData} from '../../store/app.actions';
 import { Store } from '@ngrx/store';
-
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-header',
-  imports: [NgFor,RickAndMortyComponent,CommonModule],
+  imports: [NgFor,RickAndMortyComponent,CommonModule,ReactiveFormsModule,MatProgressSpinnerModule],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
@@ -21,34 +22,56 @@ import { Store } from '@ngrx/store';
 })
 export class HeaderComponent {
 
+    reloadComponent= signal<boolean>(false);
+    stopReloadComponent= signal<boolean>(false);
 
-  // Inyección del servicio
-  private rickAndMortyService = inject(RickAndMortyService);
-  private personajeFavoritoService = inject(PersonajeFavoritoService);
-  private originLocationService = inject(OriginLocationService);
+    //form group para formulario reactivo
+    formularioReactivoBusqueda:FormGroup;
+    idPersonajeBusqueda:FormControl;
+    nombrePersonajeBusqueda:FormControl;
 
-  // Definir el array para usarlo en la plantilla
-  personajesArraySignal = signal<PersonajeInterface[]>([]);
+    // Inyección del servicio
+    private rickAndMortyService = inject(RickAndMortyService);
+    private personajeFavoritoService = inject(PersonajeFavoritoService);
+    private originLocationService = inject(OriginLocationService);
 
-  //personaje seleccionado
-  personajeSeleccionadoObjectSignalSelect = this.personajeFavoritoService.personajeFavoritoSeleccionadoSignal;
-  //esto es para alterar la seleccion cuando seleccionamos un favorito
-  enunciadoFavorito = signal("");
+    // Definir el array para usarlo en la plantilla
+    personajesArraySignal = signal<PersonajeInterface[]>([]);
 
-  //lista permanente de personajes
-  arrayPersistentePersonajeArrayPersistence= this.rickAndMortyService.arrayPersistentePersonaje
+    //personaje seleccionado
+    personajeSeleccionadoObjectSignalSelect = this.personajeFavoritoService.personajeFavoritoSeleccionadoSignal;
+    //esto es para alterar la seleccion cuando seleccionamos un favorito
+    enunciadoFavorito = signal("");
 
-  
-  transformMethodPersonajeCompleto = this.originLocationService
+    //lista permanente de personajes
+    arrayPersistentePersonajeArrayPersistence= this.rickAndMortyService.arrayPersistentePersonaje
 
-  constructor(private store: Store) {
     
+    transformMethodPersonajeCompleto = this.originLocationService
+
+    constructor(private store: Store) {
+      
+      //iniciamos los controladores de formulario
+      this.idPersonajeBusqueda = new FormControl('', Validators.required);
+      this.nombrePersonajeBusqueda = new FormControl('', Validators.required);
+
+      this.formularioReactivoBusqueda = new FormGroup({
+        idPersonajeBusqueda: this.idPersonajeBusqueda,
+        nombrePersonajeBusqueda: this.nombrePersonajeBusqueda,
+      });
+
+
+
+    //cargamos los personajes
     this.cargarPersonajes();  
 
     effect(() => {
 
+      //aqui tomamos la variable o el cambio en si
+      this.reloadComponent=this.stopReloadComponent;
+      console.log("VIENDO LA ACTUALIZACION EN ABSE A LA BUSQUEDA",this.reloadComponent());
+
       const personaje = this.personajeSeleccionadoObjectSignalSelect();
-      
       if (personaje) {
         console.log("Guardando personaje favorito:", personaje);
         const checkbox = document.getElementById('flexCheckChecked') as HTMLInputElement;
@@ -62,7 +85,51 @@ export class HeaderComponent {
     });
   }
 
+  
+  ngOnInit() {
+    
+    //alteramos los componentes de manera rapida
+    this.formularioReactivoBusqueda.valueChanges.subscribe(async (data) => {
+      if(data?.idPersonajeBusqueda >=1){
+        this.formularioReactivoBusqueda.get('nombrePersonajeBusqueda')?.setValue('',{ emitEvent: false });
+      }else if(data?.nombrePersonajeBusqueda || data?.nombrePersonajeBusqueda !=''){
+        this.formularioReactivoBusqueda.get('idPersonajeBusqueda')?.setValue('',{ emitEvent: false });
+      }
+      //aqui seteamos el cambio reactivo para el componente carga
+      if(data?.idPersonajeBusqueda >=1 || data?.nombrePersonajeBusqueda){
+        this.reloadComponent.set(true);
+      }else{
+        this.reloadComponent.set(false)
+        this.cargarPersonajes()
+      }
+    })
 
+    this.formularioReactivoBusqueda.valueChanges
+    .pipe(
+      debounceTime(2000),
+    ).subscribe( async (data) => {
+      if(data?.idPersonajeBusqueda >=1){
+        let idPersonaje = parseInt(data?.idPersonajeBusqueda);
+        const personajeEncontrado = await this.rickAndMortyService.obtenerPersonajePorID(idPersonaje);
+        this.personajesArraySignal.set([personajeEncontrado]);
+        this.stopReloadComponent.set(false);
+        console.log("BUSQUEDA POR ID",[personajeEncontrado]);
+      }else if(data?.nombrePersonajeBusqueda){
+        const personajeEncontrados = await this.rickAndMortyService.obtenerPersonajePorNombre(data?.nombrePersonajeBusqueda);
+        console.log("PERSONAJE ESCRITO Y ENCONTRADO",personajeEncontrados);
+        this.personajesArraySignal.set(personajeEncontrados);
+        this.stopReloadComponent.set(false);
+        console.log("BUSQUEDA POR NONBRE",personajeEncontrados);
+      }
+    })
+
+
+  }
+  
+
+  
+
+  
 
     // Método asíncrono para cargar los personajes
     private async cargarPersonajes() {
@@ -155,7 +222,6 @@ export class HeaderComponent {
       console.log("ID", this.idBuscarPersonaje());
       const personajeEncontrado = await this.rickAndMortyService.obtenerPersonajePorID(this.idBuscarPersonaje());
       console.log("PERSONAJE SELECCIONADO Y ENCONTRADO",personajeEncontrado)
-
       this.personajesArraySignal.set([personajeEncontrado]);
       //reiniciamos las tablas que muestran los totales
       }else if(this.idBuscarPersonaje()===0){
@@ -169,7 +235,7 @@ export class HeaderComponent {
       if(this.nombreBuscarPersonaje()){
         this.idBuscarPersonaje.set(0);
         console.log("NOMBRE", this.nombreBuscarPersonaje());
-        const personajeEncontrados = await this.rickAndMortyService.obtenerPersonajePorNombre(this.nombreBuscarPersonaje())
+        const personajeEncontrados = await this.rickAndMortyService.obtenerPersonajePorNombre(this.nombreBuscarPersonaje());
         console.log("PERSONAJE ESCRITO Y ENCONTRADO",personajeEncontrados);
         this.personajesArraySignal.set(personajeEncontrados);
       }else if(!this.nombreBuscarPersonaje()){

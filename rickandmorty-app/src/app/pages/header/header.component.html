@@ -8,8 +8,27 @@
 <div class="header-container">
   <!-- Parte Izquierda: Tabla de personajes -->
   <div class="left-section">
+    
+    <form [formGroup]="formularioReactivoBusqueda" >
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por ID basado en observable</span>
+        <input type="number" 
+        class="form-control" 
+        aria-label="Buscar por ID" 
+        formControlName="idPersonajeBusqueda"
+          >
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por Nombre basado en observable</span>
+        <input type="text" 
+           class="form-control" 
+           aria-label="Buscar por Nombre" 
+           formControlName="nombrePersonajeBusqueda"
+          >
+      </div>
+    </form>
     <div class="input-group input-group-sm mb-3">
-      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por ID</span>
+      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por ID basado evento</span>
       <input type="number" 
       class="form-control" 
       aria-label="Buscar por ID" 
@@ -17,7 +36,7 @@
       (input)="actualizarId($event)">
     </div>
     <div class="input-group input-group-sm mb-3">
-      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por Nombre</span>
+      <span class="input-group-text bg-dark text-white" id="inputGroup-sizing-sm">Buscar Por Nombre basado en evento</span>
       <input type="text" 
          class="form-control" 
          aria-label="Buscar por Nombre" 
@@ -25,7 +44,7 @@
          (input)="actualizarNombre($event)">
     </div>
     <div class="table-container">
-      <table class="character-table">
+      <table class="character-table" *ngIf="!reloadComponent()">
         <thead>
           <tr class="bg-dark">
             <th scope="col">Id</th>
@@ -60,6 +79,7 @@
         </tbody>
         
       </table>
+      <mat-spinner *ngIf="reloadComponent()"></mat-spinner>
     </div>
     <!-- Botón debajo de la tabla -->
     <div class="button-container">
